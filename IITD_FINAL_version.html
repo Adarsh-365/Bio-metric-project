@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>iitd_final_version</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="IITD_FINAL_version_files/libs/clipboard/clipboard.min.js"></script>
+<script src="IITD_FINAL_version_files/libs/quarto-html/quarto.js"></script>
+<script src="IITD_FINAL_version_files/libs/quarto-html/popper.min.js"></script>
+<script src="IITD_FINAL_version_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="IITD_FINAL_version_files/libs/quarto-html/anchor.min.js"></script>
+<link href="IITD_FINAL_version_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="IITD_FINAL_version_files/libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="IITD_FINAL_version_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="IITD_FINAL_version_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="IITD_FINAL_version_files/libs/bootstrap/bootstrap-8a79a254b8e706d3c925cde0a310d4f0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+
+<div id="7b11ddd5-0ef3-4af5-b82a-24a0a0305eaf" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="808fe2b3-94de-4585-95d6-9da8346b75c2" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> pipeline</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>DEVICE <span class="op">=</span> torch.device(<span class="st">'cuda'</span> <span class="cf">if</span> torch.cuda.is_available() <span class="cf">else</span> <span class="st">'cpu'</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>pipe <span class="op">=</span> pipeline(task<span class="op">=</span><span class="st">"image-feature-extraction"</span>, model_name<span class="op">=</span><span class="st">"google/vit-base-patch16-224"</span>, device<span class="op">=</span>DEVICE, pool<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>No model was supplied, defaulted to google/vit-base-patch16-224 and revision 3f49326 (https://huggingface.co/google/vit-base-patch16-224).
+Using a pipeline without specifying a model name and revision in production is not recommended.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>WARNING:tensorflow:From D:\ENV\DEEP\Lib\site-packages\tf_keras\src\losses.py:2976: The name tf.losses.sparse_softmax_cross_entropy is deprecated. Please use tf.compat.v1.losses.sparse_softmax_cross_entropy instead.
+</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Some weights of ViTModel were not initialized from the model checkpoint at google/vit-base-patch16-224 and are newly initialized: ['vit.pooler.dense.bias', 'vit.pooler.dense.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Fast image processor class &lt;class 'transformers.models.vit.image_processing_vit_fast.ViTImageProcessorFast'&gt; is available for this model. Using slow image processor class. To use the fast image processor class set `use_fast=True`.</code></pre>
+</div>
+</div>
+<div id="ac444895-6680-43b3-8af6-b9d9b5ae208d" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pil</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>image_folder <span class="op">=</span> <span class="vs">r'D:\BIOMETRIC_PROJECT\IITD-Database'</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>list_of_folder  <span class="op">=</span> [filename <span class="cf">for</span> filename <span class="kw">in</span> os.listdir(image_folder)]</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>image_paths <span class="op">=</span> []</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>features_dict <span class="op">=</span> {}</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># print(list_of_folder)</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="bu">id</span> <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(list_of_folder)):</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co"># for i in range(8):</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    filename <span class="op">=</span> list_of_folder[i]</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    path <span class="op">=</span>  os.path.join(image_folder, filename)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    left_files <span class="op">=</span> []</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    right_files <span class="op">=</span> []</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> os.listdir(path):</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print(file)</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">file</span>[<span class="op">-</span><span class="dv">5</span>:]<span class="op">==</span><span class="st">"L.bmp"</span>:</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>            left_files.append(<span class="bu">file</span>)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">file</span>[<span class="op">-</span><span class="dv">5</span>:]<span class="op">==</span><span class="st">"R.bmp"</span>:</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>            right_files.append(<span class="bu">file</span>)</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">min</span>(<span class="bu">len</span>(left_files),<span class="bu">len</span>(right_files))):</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># os.path.join(path, file)</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>        images <span class="op">=</span> {<span class="st">"left"</span>:Image.<span class="bu">open</span>( os.path.join(path, left_files[i])).convert(<span class="st">"RGB"</span>),</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"right"</span>:Image.<span class="bu">open</span>(os.path.join(path, right_files[i])).convert(<span class="st">"RGB"</span>),</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"id"</span>:filename}</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print(images)</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>        features_dict[<span class="bu">str</span>(<span class="bu">id</span>)] <span class="op">=</span> images</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>        <span class="bu">id</span> <span class="op">=</span> <span class="bu">id</span><span class="op">+</span><span class="dv">1</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg ansi-bold">NameError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-fg ansi-bold">In[2], line 25</span>
+<span class="ansi-green-fg">     22</span>         right_files<span style="color:rgb(98,98,98)">.</span>append(file)
+<span class="ansi-green-fg">     23</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> i <span style="font-weight:bold;color:rgb(175,0,255)">in</span> <span style="color:rgb(0,135,0)">range</span>(<span style="color:rgb(0,135,0)">min</span>(<span style="color:rgb(0,135,0)">len</span>(left_files),<span style="color:rgb(0,135,0)">len</span>(right_files))):
+<span class="ansi-green-fg">     24</span>     <span style="font-style:italic;color:rgb(95,135,135)"># os.path.join(path, file)</span>
+<span class="ansi-green-fg ansi-bold">---&gt; 25</span>     images <span style="color:rgb(98,98,98)">=</span> {<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">left</span><span style="color:rgb(175,0,0)">"</span>:<span class="ansi-yellow-bg">Image</span><span style="color:rgb(98,98,98)">.</span>open( os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>join(path, left_files[i]))<span style="color:rgb(98,98,98)">.</span>convert(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">RGB</span><span style="color:rgb(175,0,0)">"</span>),
+<span class="ansi-green-fg">     26</span>               <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">right</span><span style="color:rgb(175,0,0)">"</span>:Image<span style="color:rgb(98,98,98)">.</span>open(os<span style="color:rgb(98,98,98)">.</span>path<span style="color:rgb(98,98,98)">.</span>join(path, right_files[i]))<span style="color:rgb(98,98,98)">.</span>convert(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">RGB</span><span style="color:rgb(175,0,0)">"</span>),
+<span class="ansi-green-fg">     27</span>              <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">id</span><span style="color:rgb(175,0,0)">"</span>:filename}
+<span class="ansi-green-fg">     28</span>     <span style="font-style:italic;color:rgb(95,135,135)"># print(images)</span>
+<span class="ansi-green-fg">     29</span>     features_dict[<span style="color:rgb(0,135,0)">str</span>(<span style="color:rgb(0,135,0)">id</span>)] <span style="color:rgb(98,98,98)">=</span> images
+
+<span class="ansi-red-fg ansi-bold">NameError</span>: name 'Image' is not defined</pre>
+</div>
+</div>
+</div>
+<div id="05d3968a-93c8-4cb0-8239-48afc44b9f78" class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>([key <span class="cf">for</span> key <span class="kw">in</span> features_dict])</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>features_dict[<span class="st">"0"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="bb2d3613-8130-41dd-b5db-727e3fb81c7d" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(features_dict)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>1052</code></pre>
+</div>
+</div>
+<div id="3c1a01e2-ffb5-44eb-9114-aea5caa8b186" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image, ImageOps</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torchvision <span class="im">import</span> transforms</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> Dataset</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Define data augmentation transforms for PIL images</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>data_transform <span class="op">=</span> transforms.Compose([</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    transforms.RandomHorizontalFlip(),</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    transforms.RandomRotation(degrees<span class="op">=</span><span class="dv">30</span>),</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    transforms.ColorJitter(brightness<span class="op">=</span><span class="fl">0.2</span>, contrast<span class="op">=</span><span class="fl">0.2</span>, saturation<span class="op">=</span><span class="fl">0.2</span>, hue<span class="op">=</span><span class="fl">0.2</span>),</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    transforms.RandomResizedCrop(size<span class="op">=</span>(<span class="dv">192</span>, <span class="dv">192</span>), scale<span class="op">=</span>(<span class="fl">0.8</span>, <span class="fl">1.0</span>)),</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new dataset to store both original and augmented images</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Add original images to the new dataset</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>data_feature_label <span class="op">=</span> {}</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply data augmentation and add augmented images to the new dataset</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="co"># for image, label, file_path in zip(dataset["image"], dataset["labels"], dataset["image_file_path"]):</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>id1 <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> item <span class="kw">in</span> features_dict:</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    dict1 <span class="op">=</span> features_dict[item]</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    id_name <span class="op">=</span> dict1[<span class="st">"id"</span>]</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    images <span class="op">=</span> {<span class="st">"left"</span>:pipe(dict1[<span class="st">"left"</span>]),<span class="st">"right"</span>:pipe(dict1[<span class="st">"right"</span>]),<span class="st">"id"</span>:id_name}</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    data_feature_label[<span class="bu">str</span>(id1)] <span class="op">=</span> images</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    id1<span class="op">+=</span><span class="dv">1</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(id_name,item)</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    left_image <span class="op">=</span> data_transform(dict1[<span class="st">"left"</span>])</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    right_image <span class="op">=</span> data_transform(dict1[<span class="st">"right"</span>])</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>    images <span class="op">=</span> {<span class="st">"left"</span>:pipe(left_image),<span class="st">"right"</span>:pipe(right_image),<span class="st">"id"</span>:id_name}</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>    data_feature_label[<span class="bu">str</span>(id1)] <span class="op">=</span> images</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>    id1<span class="op">+=</span><span class="dv">1</span></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>    <span class="co"># # Append augmented image and corresponding label to the new dataset</span></span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>    <span class="co"># combined_data["image_file_path"].append(f"{file_path}_augmented.jpg")  # Adjust the filename as needed</span></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># combined_data["image"].append(augmented_image)</span></span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># combined_data["labels"].append(label)</span></span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="e00248d0-bd6d-46d6-92a9-99b517fe8664" class="cell" data-execution_count="190">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(data_feature_label)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pickle</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># # Open a file in binary write mode</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># with open("data_new1.pickle", "wb") as f:</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     # Serialize and save the object to the file</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co">#     pickle.dump(data_feature_label, f)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="45553ef0-3131-455e-b7da-f7a0263b29ca" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pickle</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"IITD_Features.pickle"</span>, <span class="st">"rb"</span>) <span class="im">as</span> f:</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> pickle.load(f)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(data)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>data_feature_label <span class="op">=</span> data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="a445c4cd-7c48-430d-a73a-1d7187168de5" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(data_feature_label)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>2104</code></pre>
+</div>
+</div>
+<div id="ec56f64d-fbad-4e39-b6d8-b5c4dbd26f8d" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame().from_dict(data_feature_label)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># df.to_csv("iitd_.csv")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="6aae1cec-449d-4922-b017-1de1ce566576" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_orthogonal_matrix(key):</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Use the key to seed the random number generator</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    np.random.seed(key)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a random 4x4 matrix</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    random_matrix <span class="op">=</span> np.random.rand(<span class="dv">4</span>, <span class="dv">4</span>)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Perform Gram-Schmidt process to make the matrix orthogonal</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> gram_schmidt(A):</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>        Q, _ <span class="op">=</span> np.linalg.qr(A)  <span class="co"># QR decomposition provides an orthogonal Q</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> Q</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    orthogonal_matrix <span class="op">=</span> gram_schmidt(random_matrix)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    orthogonal_vector <span class="op">=</span> orthogonal_matrix.flatten().reshape(<span class="dv">16</span>, <span class="dv">1</span>)</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> orthogonal_vector</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="4ebfc39e-2df4-4ed7-8fba-43ea1914cc86" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>images <span class="op">=</span> []</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>labels_arr <span class="op">=</span> []</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> id1 <span class="kw">in</span> data_feature_label:</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    vector_lx768 <span class="op">=</span> np.array(data_feature_label[id1][<span class="st">"left"</span>][<span class="dv">0</span>])</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    vector_lx768 <span class="op">=</span> vector_lx768.reshape(<span class="dv">1</span>, <span class="dv">768</span>)</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(data_feature_label["0"])</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    vector_rx768 <span class="op">=</span> np.array(data_feature_label[id1][<span class="st">"right"</span>][<span class="dv">0</span>])</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    vector_rx768 <span class="op">=</span> vector_rx768.reshape(<span class="dv">1</span>, <span class="dv">768</span>)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    key <span class="op">=</span> <span class="bu">int</span>(data_feature_label[id1][<span class="st">"id"</span>])</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    orthogonal_matrix <span class="op">=</span> generate_orthogonal_matrix(key)</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    left_projection_matrix <span class="op">=</span> np.dot(orthogonal_matrix, vector_lx768)</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    Right_projection_matrix <span class="op">=</span> np.dot(orthogonal_matrix, vector_rx768)</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(left_projection_matrix.shape,Right_projection_matrix.shape)</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>    Cancelabel_matrix <span class="op">=</span> np.multiply(left_projection_matrix, Right_projection_matrix)</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># for item in data_feature_label:</span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print(data_feature_label[item])</span></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(Cancelabel_matrix.shape)</span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>    images.append(Cancelabel_matrix)</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>    labels_arr.append(data_feature_label[id1][<span class="st">"id"</span>])</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a><span class="co"># print(result_matrix.shape)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="54552d9f-08f7-4917-8b09-74151369c320" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>images <span class="op">=</span> []</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>labels_arr <span class="op">=</span> []</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> id1 <span class="kw">in</span> data_feature_label:</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    vector_lx768 <span class="op">=</span> np.array(data_feature_label[id1][<span class="st">"left"</span>][<span class="dv">0</span>])</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    vector_lx768 <span class="op">=</span> vector_lx768.reshape(<span class="dv">1</span>, <span class="dv">768</span>)</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(data_feature_label["0"])</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    vector_rx768 <span class="op">=</span> np.array(data_feature_label[id1][<span class="st">"right"</span>][<span class="dv">0</span>])</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    vector_rx768 <span class="op">=</span> vector_rx768.reshape(<span class="dv">1</span>, <span class="dv">768</span>)</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    key <span class="op">=</span> <span class="bu">int</span>(data_feature_label[id1][<span class="st">"id"</span>])</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    fuse_feature <span class="op">=</span> np.multiply(vector_lx768, vector_rx768)</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    orthogonal_matrix <span class="op">=</span> generate_orthogonal_matrix(key)</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    Cancelabel_matrix <span class="op">=</span> np.dot(orthogonal_matrix, fuse_feature)</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Right_projection_matrix = np.dot(orthogonal_matrix, vector_rx768)</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># # print(left_projection_matrix.shape,Right_projection_matrix.shape)</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Cancelabel_matrix = np.multiply(left_projection_matrix, Right_projection_matrix)</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># for item in data_feature_label:</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print(data_feature_label[item])</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(Cancelabel_matrix.shape)</span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>    images.append(Cancelabel_matrix)</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>    labels_arr.append(data_feature_label[id1][<span class="st">"id"</span>])</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="co"># print(result_matrix.shape)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="8416fa85-39b5-4ebb-b586-ec777c499c2a" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>Cancelabel_matrix.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>(16, 768)</code></pre>
+</div>
+</div>
+<div id="6eacc516-540f-4de4-a7a5-3902b6151a62" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>np.unique(labels_arr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>array(['014', '015', '016', '017', '018', '019', '020', '021', '022',
+       '023', '024', '025', '026', '027', '028', '029', '030', '031',
+       '032', '033', '034', '035', '036', '037', '038', '039', '040',
+       '041', '042', '043', '044', '045', '046', '047', '048', '049',
+       '050', '051', '052', '053', '054', '055', '056', '057', '058',
+       '059', '060', '061', '062', '063', '064', '065', '066', '067',
+       '068', '069', '070', '071', '072', '073', '074', '075', '076',
+       '077', '078', '079', '080', '081', '082', '083', '084', '085',
+       '086', '087', '088', '089', '090', '091', '092', '093', '094',
+       '095', '096', '097', '098', '099', '100', '101', '102', '103',
+       '104', '105', '106', '107', '108', '109', '110', '111', '112',
+       '113', '114', '115', '116', '117', '118', '119', '120', '121',
+       '122', '123', '124', '125', '126', '127', '128', '129', '130',
+       '131', '132', '133', '134', '135', '136', '137', '138', '139',
+       '140', '141', '142', '143', '144', '145', '146', '147', '148',
+       '149', '150', '151', '152', '153', '154', '155', '156', '157',
+       '158', '159', '160', '161', '162', '163', '164', '165', '166',
+       '167', '168', '169', '170', '171', '172', '173', '174', '175',
+       '176', '177', '178', '179', '180', '181', '182', '183', '184',
+       '185', '186', '187', '188', '189', '190', '191', '192', '193',
+       '194', '195', '196', '197', '198', '199', '200', '201', '202',
+       '203', '204', '205', '206', '207', '208', '209', '210', '211',
+       '212', '213', '214', '215', '216', '217', '218', '219', '220',
+       '221', '222', '223', '224'], dtype='&lt;U3')</code></pre>
+</div>
+</div>
+<div id="bda69d1c-c80d-46b2-8f29-ef721c98299b" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(images)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>2104</code></pre>
+</div>
+</div>
+<div id="a7a00dfc-ff65-4cd5-92f3-1848d27fdc98" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras.models <span class="im">import</span> Sequential</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tensorflow.keras.layers <span class="im">as</span> layers</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>num_classes <span class="op">=</span>np.unique(labels_arr)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_cnn_model():</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> Sequential([</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>        layers.Flatten(input_shape<span class="op">=</span>(<span class="dv">16</span>,<span class="dv">768</span>,<span class="dv">1</span>)),  </span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>        layers.Dense(<span class="dv">100</span>, activation<span class="op">=</span><span class="st">'relu'</span>),   <span class="co"># Flatten the input</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">#layers.Dense(1024, activation='relu'), </span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>        layers.Dropout(<span class="fl">0.5</span>),                           <span class="co"># Dropout for regularization</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>        layers.Dense(<span class="dv">225</span>, activation<span class="op">=</span><span class="st">'softmax'</span>)<span class="co"># Output layer for classification</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    ])</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    model.<span class="bu">compile</span>(optimizer<span class="op">=</span><span class="st">'adam'</span>, loss<span class="op">=</span><span class="st">'categorical_crossentropy'</span>, metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> model</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># model.summary()</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="0ce8d9a8-b3a0-4d87-ab64-8003ea0ed2d6" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>all_images <span class="op">=</span> []</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2104</span>):</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    all_images.append(images[i].reshape( <span class="dv">16</span>, <span class="dv">768</span>, <span class="dv">1</span>))</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>all_images[<span class="dv">0</span>].shape</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>(16, 768, 1)</code></pre>
+</div>
+</div>
+<div id="96eab358-7953-447b-b200-4de934a5012b" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras.utils <span class="im">import</span> to_categorical</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> KFold</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming `all_images` is your dataset and `labels_arr` is your label array</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>all_images <span class="op">=</span> np.array(all_images).reshape(<span class="dv">2104</span>, <span class="dv">16</span>, <span class="dv">768</span>, <span class="dv">1</span>)</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="co"># One-hot encode labels</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>num_classes <span class="op">=</span> <span class="dv">225</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>y_data_cat <span class="op">=</span> to_categorical(labels_arr, num_classes<span class="op">=</span>num_classes)</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="co"># K-Fold Cross Validation</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>kf <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>fold_no <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>acc_per_fold <span class="op">=</span> []</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>loss_per_fold <span class="op">=</span> []</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Create lists to store accuracy and loss for all folds</span></span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>accuracy_per_epoch <span class="op">=</span> []</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>loss_per_epoch <span class="op">=</span> []</span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> train_index, val_index <span class="kw">in</span> kf.split(all_images):</span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Split data</span></span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>    X_train, X_val <span class="op">=</span> all_images[train_index], all_images[val_index]</span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>    y_train, y_val <span class="op">=</span> y_data_cat[train_index], y_data_cat[val_index]</span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize the CNN model (make sure `create_cnn_model` is defined)</span></span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> create_cnn_model()</span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Train the model</span></span>
+<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'Training for fold </span><span class="sc">{</span>fold_no<span class="sc">}</span><span class="ss"> ...'</span>)</span>
+<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a>    history <span class="op">=</span> model.fit(X_train, y_train, epochs<span class="op">=</span><span class="dv">5</span>, batch_size<span class="op">=</span><span class="dv">32</span>, validation_data<span class="op">=</span>(X_val, y_val), verbose<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-36"><a href="#cb28-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Capture the accuracy and loss for plotting</span></span>
+<span id="cb28-37"><a href="#cb28-37" aria-hidden="true" tabindex="-1"></a>    accuracy_per_epoch.append(history.history[<span class="st">'accuracy'</span>])</span>
+<span id="cb28-38"><a href="#cb28-38" aria-hidden="true" tabindex="-1"></a>    loss_per_epoch.append(history.history[<span class="st">'loss'</span>])</span>
+<span id="cb28-39"><a href="#cb28-39" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-40"><a href="#cb28-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Evaluate the model</span></span>
+<span id="cb28-41"><a href="#cb28-41" aria-hidden="true" tabindex="-1"></a>    scores <span class="op">=</span> model.evaluate(X_val, y_val, verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb28-42"><a href="#cb28-42" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'Score for fold </span><span class="sc">{</span>fold_no<span class="sc">}</span><span class="ss">: Loss = </span><span class="sc">{</span>scores[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">, Accuracy = </span><span class="sc">{</span>scores[<span class="dv">1</span>]<span class="op">*</span><span class="dv">100</span><span class="sc">}</span><span class="ss">%'</span>)</span>
+<span id="cb28-43"><a href="#cb28-43" aria-hidden="true" tabindex="-1"></a>    acc_per_fold.append(scores[<span class="dv">1</span>] <span class="op">*</span> <span class="dv">100</span>)</span>
+<span id="cb28-44"><a href="#cb28-44" aria-hidden="true" tabindex="-1"></a>    loss_per_fold.append(scores[<span class="dv">0</span>])</span>
+<span id="cb28-45"><a href="#cb28-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-46"><a href="#cb28-46" aria-hidden="true" tabindex="-1"></a>    fold_no <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb28-47"><a href="#cb28-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-48"><a href="#cb28-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary of scores across folds</span></span>
+<span id="cb28-49"><a href="#cb28-49" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Average scores for all folds:'</span>)</span>
+<span id="cb28-50"><a href="#cb28-50" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'&gt; Accuracy: </span><span class="sc">{</span>np<span class="sc">.</span>mean(acc_per_fold)<span class="sc">}</span><span class="ss"> (+- </span><span class="sc">{</span>np<span class="sc">.</span>std(acc_per_fold)<span class="sc">}</span><span class="ss">)'</span>)</span>
+<span id="cb28-51"><a href="#cb28-51" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'&gt; Loss: </span><span class="sc">{</span>np<span class="sc">.</span>mean(loss_per_fold)<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb28-52"><a href="#cb28-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-53"><a href="#cb28-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting training history for accuracy and loss across all folds</span></span>
+<span id="cb28-54"><a href="#cb28-54" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
+<span id="cb28-55"><a href="#cb28-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-56"><a href="#cb28-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot training &amp; validation accuracy for all folds</span></span>
+<span id="cb28-57"><a href="#cb28-57" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb28-58"><a href="#cb28-58" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> accuracy <span class="kw">in</span> accuracy_per_epoch:</span>
+<span id="cb28-59"><a href="#cb28-59" aria-hidden="true" tabindex="-1"></a>    plt.plot(accuracy, label<span class="op">=</span><span class="st">'Train Accuracy'</span>)</span>
+<span id="cb28-60"><a href="#cb28-60" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Epoch'</span>)</span>
+<span id="cb28-61"><a href="#cb28-61" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Accuracy'</span>)</span>
+<span id="cb28-62"><a href="#cb28-62" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb28-63"><a href="#cb28-63" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Model Accuracy across Folds'</span>)</span>
+<span id="cb28-64"><a href="#cb28-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-65"><a href="#cb28-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot training &amp; validation loss for all folds</span></span>
+<span id="cb28-66"><a href="#cb28-66" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb28-67"><a href="#cb28-67" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> loss <span class="kw">in</span> loss_per_epoch:</span>
+<span id="cb28-68"><a href="#cb28-68" aria-hidden="true" tabindex="-1"></a>    plt.plot(loss, label<span class="op">=</span><span class="st">'Train Loss'</span>)</span>
+<span id="cb28-69"><a href="#cb28-69" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Epoch'</span>)</span>
+<span id="cb28-70"><a href="#cb28-70" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Loss'</span>)</span>
+<span id="cb28-71"><a href="#cb28-71" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb28-72"><a href="#cb28-72" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Model Loss across Folds'</span>)</span>
+<span id="cb28-73"><a href="#cb28-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-74"><a href="#cb28-74" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb28-75"><a href="#cb28-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-76"><a href="#cb28-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-77"><a href="#cb28-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-78"><a href="#cb28-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-79"><a href="#cb28-79" aria-hidden="true" tabindex="-1"></a><span class="co"># X_train, X_test, y_train, y_test = train_test_split(all_images, labels_arr, test_size=0.2, random_state=42)</span></span>
+<span id="cb28-80"><a href="#cb28-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-81"><a href="#cb28-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-82"><a href="#cb28-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-83"><a href="#cb28-83" aria-hidden="true" tabindex="-1"></a><span class="co"># y_train_cat = to_categorical(y_train, num_classes=225)</span></span>
+<span id="cb28-84"><a href="#cb28-84" aria-hidden="true" tabindex="-1"></a><span class="co"># y_test_cat = to_categorical(y_test, num_classes=225)</span></span>
+<span id="cb28-85"><a href="#cb28-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-86"><a href="#cb28-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-87"><a href="#cb28-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-88"><a href="#cb28-88" aria-hidden="true" tabindex="-1"></a><span class="co"># history = model.fit(X_train, y_train_cat, epochs=5, batch_size=32, validation_data=(X_test, y_test_cat))</span></span>
+<span id="cb28-89"><a href="#cb28-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-90"><a href="#cb28-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-91"><a href="#cb28-91" aria-hidden="true" tabindex="-1"></a><span class="co"># test_loss, test_accuracy = model.evaluate(X_test, y_test_cat)</span></span>
+<span id="cb28-92"><a href="#cb28-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-93"><a href="#cb28-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-94"><a href="#cb28-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-95"><a href="#cb28-95" aria-hidden="true" tabindex="-1"></a><span class="co"># print(f'Test Loss: {test_loss}')</span></span>
+<span id="cb28-96"><a href="#cb28-96" aria-hidden="true" tabindex="-1"></a><span class="co"># print(f'Test Accuracy: {test_accuracy}')</span></span>
+<span id="cb28-97"><a href="#cb28-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-98"><a href="#cb28-98" aria-hidden="true" tabindex="-1"></a><span class="co"># # Plotting training history for accuracy and loss if desired</span></span>
+<span id="cb28-99"><a href="#cb28-99" aria-hidden="true" tabindex="-1"></a><span class="co"># import matplotlib.pyplot as plt</span></span>
+<span id="cb28-100"><a href="#cb28-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-101"><a href="#cb28-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-102"><a href="#cb28-102" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.figure(figsize=(12, 5))</span></span>
+<span id="cb28-103"><a href="#cb28-103" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.subplot(1, 2, 1)</span></span>
+<span id="cb28-104"><a href="#cb28-104" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.plot(history.history['accuracy'], label='Train Accuracy')</span></span>
+<span id="cb28-105"><a href="#cb28-105" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.plot(history.history['val_accuracy'], label='Validation Accuracy')</span></span>
+<span id="cb28-106"><a href="#cb28-106" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.xlabel('Epoch')</span></span>
+<span id="cb28-107"><a href="#cb28-107" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.ylabel('Accuracy')</span></span>
+<span id="cb28-108"><a href="#cb28-108" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.legend()</span></span>
+<span id="cb28-109"><a href="#cb28-109" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.title('Model Accuracy')</span></span>
+<span id="cb28-110"><a href="#cb28-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-111"><a href="#cb28-111" aria-hidden="true" tabindex="-1"></a><span class="co"># # Plot training &amp; validation loss</span></span>
+<span id="cb28-112"><a href="#cb28-112" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.subplot(1, 2, 2)</span></span>
+<span id="cb28-113"><a href="#cb28-113" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.plot(history.history['loss'], label='Train Loss')</span></span>
+<span id="cb28-114"><a href="#cb28-114" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.plot(history.history['val_loss'], label='Validation Loss')</span></span>
+<span id="cb28-115"><a href="#cb28-115" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.xlabel('Epoch')</span></span>
+<span id="cb28-116"><a href="#cb28-116" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.ylabel('Loss')</span></span>
+<span id="cb28-117"><a href="#cb28-117" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.legend()</span></span>
+<span id="cb28-118"><a href="#cb28-118" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.title('Model Loss')</span></span>
+<span id="cb28-119"><a href="#cb28-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-120"><a href="#cb28-120" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.show()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Training for fold 1 ...
+Epoch 1/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 4s 37ms/step - accuracy: 0.0239 - loss: 5.2467 - val_accuracy: 0.2322 - val_loss: 3.9121
+Epoch 2/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 2s 29ms/step - accuracy: 0.2057 - loss: 3.6249 - val_accuracy: 0.6540 - val_loss: 2.1873
+Epoch 3/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 2s 22ms/step - accuracy: 0.4388 - loss: 2.2478 - val_accuracy: 0.8720 - val_loss: 1.1032
+Epoch 4/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 2s 26ms/step - accuracy: 0.5881 - loss: 1.5267 - val_accuracy: 0.9621 - val_loss: 0.5982
+Epoch 5/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 3s 33ms/step - accuracy: 0.7303 - loss: 0.9874 - val_accuracy: 0.9905 - val_loss: 0.3450
+Score for fold 1: Loss = 0.3449581265449524, Accuracy = 99.05213117599487%
+Training for fold 2 ...
+Epoch 1/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 4s 34ms/step - accuracy: 0.0338 - loss: 5.2177 - val_accuracy: 0.2559 - val_loss: 3.8022
+Epoch 2/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 2s 30ms/step - accuracy: 0.2063 - loss: 3.5552 - val_accuracy: 0.6967 - val_loss: 2.0292
+Epoch 3/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 3s 30ms/step - accuracy: 0.4383 - loss: 2.1313 - val_accuracy: 0.9052 - val_loss: 1.0582
+Epoch 4/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 3s 28ms/step - accuracy: 0.6180 - loss: 1.4064 - val_accuracy: 0.9668 - val_loss: 0.5193
+Epoch 5/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 2s 25ms/step - accuracy: 0.7501 - loss: 0.9577 - val_accuracy: 0.9858 - val_loss: 0.2780
+Score for fold 2: Loss = 0.27804243564605713, Accuracy = 98.57819676399231%
+Training for fold 3 ...
+Epoch 1/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 4s 30ms/step - accuracy: 0.0241 - loss: 5.2301 - val_accuracy: 0.1659 - val_loss: 4.0771
+Epoch 2/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 2s 24ms/step - accuracy: 0.1799 - loss: 3.6775 - val_accuracy: 0.6209 - val_loss: 2.1922
+Epoch 3/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 3s 26ms/step - accuracy: 0.4131 - loss: 2.3406 - val_accuracy: 0.9052 - val_loss: 1.1485
+Epoch 4/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 3s 29ms/step - accuracy: 0.5764 - loss: 1.5737 - val_accuracy: 0.9716 - val_loss: 0.5982
+Epoch 5/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 3s 30ms/step - accuracy: 0.6882 - loss: 1.1069 - val_accuracy: 0.9858 - val_loss: 0.3399
+Score for fold 3: Loss = 0.3398796617984772, Accuracy = 98.57819676399231%
+Training for fold 4 ...
+Epoch 1/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 4s 34ms/step - accuracy: 0.0309 - loss: 5.2267 - val_accuracy: 0.3081 - val_loss: 3.9077
+Epoch 2/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 2s 29ms/step - accuracy: 0.2207 - loss: 3.4914 - val_accuracy: 0.6351 - val_loss: 2.0385
+Epoch 3/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 3s 28ms/step - accuracy: 0.4531 - loss: 2.1667 - val_accuracy: 0.9479 - val_loss: 0.9422
+Epoch 4/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 3s 29ms/step - accuracy: 0.6289 - loss: 1.3885 - val_accuracy: 0.9905 - val_loss: 0.4534
+Epoch 5/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 3s 30ms/step - accuracy: 0.7604 - loss: 0.9097 - val_accuracy: 1.0000 - val_loss: 0.2424
+Score for fold 4: Loss = 0.24242527782917023, Accuracy = 100.0%
+Training for fold 5 ...
+Epoch 1/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 4s 36ms/step - accuracy: 0.0354 - loss: 5.2352 - val_accuracy: 0.2238 - val_loss: 3.8334
+Epoch 2/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 2s 26ms/step - accuracy: 0.2067 - loss: 3.5460 - val_accuracy: 0.7190 - val_loss: 1.9933
+Epoch 3/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 3s 26ms/step - accuracy: 0.4396 - loss: 2.1826 - val_accuracy: 0.9048 - val_loss: 0.9970
+Epoch 4/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 3s 30ms/step - accuracy: 0.6094 - loss: 1.4573 - val_accuracy: 0.9714 - val_loss: 0.5659
+Epoch 5/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 3s 30ms/step - accuracy: 0.7474 - loss: 0.9956 - val_accuracy: 0.9905 - val_loss: 0.3176
+Score for fold 5: Loss = 0.3176439106464386, Accuracy = 99.04761910438538%
+Training for fold 6 ...
+Epoch 1/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 4s 32ms/step - accuracy: 0.0279 - loss: 5.2110 - val_accuracy: 0.2429 - val_loss: 3.8540
+Epoch 2/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 2s 27ms/step - accuracy: 0.2228 - loss: 3.5457 - val_accuracy: 0.7286 - val_loss: 1.9460
+Epoch 3/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 3s 29ms/step - accuracy: 0.4622 - loss: 2.0766 - val_accuracy: 0.9381 - val_loss: 0.9087
+Epoch 4/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 2s 27ms/step - accuracy: 0.6596 - loss: 1.3205 - val_accuracy: 0.9762 - val_loss: 0.4467
+Epoch 5/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 2s 28ms/step - accuracy: 0.7329 - loss: 0.9928 - val_accuracy: 0.9857 - val_loss: 0.2415
+Score for fold 6: Loss = 0.24145732820034027, Accuracy = 98.57142567634583%
+Training for fold 7 ...
+Epoch 1/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 4s 32ms/step - accuracy: 0.0267 - loss: 5.2256 - val_accuracy: 0.2524 - val_loss: 3.9295
+Epoch 2/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 2s 28ms/step - accuracy: 0.2097 - loss: 3.6068 - val_accuracy: 0.6476 - val_loss: 2.1047
+Epoch 3/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 2s 23ms/step - accuracy: 0.4413 - loss: 2.2456 - val_accuracy: 0.8952 - val_loss: 1.0566
+Epoch 4/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 1s 16ms/step - accuracy: 0.6290 - loss: 1.4124 - val_accuracy: 0.9429 - val_loss: 0.5897
+Epoch 5/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 1s 18ms/step - accuracy: 0.7412 - loss: 1.0264 - val_accuracy: 0.9762 - val_loss: 0.3467
+Score for fold 7: Loss = 0.3466646075248718, Accuracy = 97.6190447807312%
+Training for fold 8 ...
+Epoch 1/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 4s 32ms/step - accuracy: 0.0223 - loss: 5.2859 - val_accuracy: 0.1095 - val_loss: 4.2241
+Epoch 2/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 2s 25ms/step - accuracy: 0.1627 - loss: 3.8284 - val_accuracy: 0.5714 - val_loss: 2.3802
+Epoch 3/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 3s 27ms/step - accuracy: 0.3886 - loss: 2.4267 - val_accuracy: 0.9000 - val_loss: 1.1750
+Epoch 4/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 3s 29ms/step - accuracy: 0.5981 - loss: 1.5209 - val_accuracy: 0.9762 - val_loss: 0.6171
+Epoch 5/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 2s 26ms/step - accuracy: 0.6867 - loss: 1.1167 - val_accuracy: 0.9952 - val_loss: 0.3241
+Score for fold 8: Loss = 0.3240877091884613, Accuracy = 99.52380657196045%
+Training for fold 9 ...
+Epoch 1/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 4s 35ms/step - accuracy: 0.0352 - loss: 5.1814 - val_accuracy: 0.2381 - val_loss: 3.7532
+Epoch 2/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 2s 29ms/step - accuracy: 0.2081 - loss: 3.4454 - val_accuracy: 0.6619 - val_loss: 2.0055
+Epoch 3/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 2s 28ms/step - accuracy: 0.4396 - loss: 2.1669 - val_accuracy: 0.9333 - val_loss: 0.9624
+Epoch 4/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 2s 21ms/step - accuracy: 0.6311 - loss: 1.3892 - val_accuracy: 0.9476 - val_loss: 0.5286
+Epoch 5/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 2s 26ms/step - accuracy: 0.7248 - loss: 1.0044 - val_accuracy: 1.0000 - val_loss: 0.2803
+Score for fold 9: Loss = 0.28029969334602356, Accuracy = 100.0%
+Training for fold 10 ...
+Epoch 1/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 3s 30ms/step - accuracy: 0.0281 - loss: 5.2297 - val_accuracy: 0.2476 - val_loss: 3.8660
+Epoch 2/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 2s 26ms/step - accuracy: 0.1887 - loss: 3.6417 - val_accuracy: 0.6190 - val_loss: 2.0805
+Epoch 3/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 3s 26ms/step - accuracy: 0.4192 - loss: 2.3009 - val_accuracy: 0.9190 - val_loss: 1.0309
+Epoch 4/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 3s 28ms/step - accuracy: 0.6075 - loss: 1.4951 - val_accuracy: 0.9857 - val_loss: 0.5396
+Epoch 5/5
+60/60 ━━━━━━━━━━━━━━━━━━━━ 3s 29ms/step - accuracy: 0.7131 - loss: 1.0604 - val_accuracy: 1.0000 - val_loss: 0.3100
+Score for fold 10: Loss = 0.3099639117717743, Accuracy = 100.0%
+
+Average scores for all folds:
+&gt; Accuracy: 99.09704208374023 (+- 0.7504489397427417)
+&gt; Loss: 0.3025422662496567</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="IITD_FINAL_version_files/figure-html/cell-23-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="2054e18e-da5d-4116-b466-d14d30deae95" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># model.save("best_model.h5")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>WARNING:absl:You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. </code></pre>
+</div>
+</div>
+<div id="b6474181-6c9e-4315-be3a-01b311656999" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import keras</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co"># keras.saving.save_model(model, "best_model.keras")</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras.models <span class="im">import</span> load_model</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the model</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="co"># model = load_model("best_model.keras")</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>D:\ENV\DEEP\Lib\site-packages\keras\src\saving\saving_lib.py:713: UserWarning: Skipping variable loading for optimizer 'rmsprop', because it has 8 variables whereas the saved optimizer has 14 variables. 
+  saveable.load_own_variables(weights_store.get(inner_path))</code></pre>
+</div>
+</div>
+<div id="c880b9aa-d4b5-4988-a4d1-e730dbf52070" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>left_iris <span class="op">=</span> Image.<span class="bu">open</span>( <span class="vs">r"D:\BIOMETRIC_PROJECT\IITD-Database\029\01_L.bmp"</span>).convert(<span class="st">"RGB"</span>)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>right_iris <span class="op">=</span> Image.<span class="bu">open</span>(<span class="vs">r"D:\BIOMETRIC_PROJECT\IITD-Database\029\06_R.bmp"</span> ).convert(<span class="st">"RGB"</span>)</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))  <span class="co"># 1 row, 2 columns</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].imshow(left_iris)</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"left_iris"</span>)</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].imshow(right_iris)</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"right_iris"</span>)</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="IITD_FINAL_version_files/figure-html/cell-26-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="aed42b52-a066-4a1f-995f-75a590b2fc38" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>fv_left_iris <span class="op">=</span> pipe(left_iris)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>fv_right_iris <span class="op">=</span> pipe(right_iris)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="281cbc94-06c9-463d-a0a2-ffe9f4ef4145" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># print(fv_left_iris)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[0.49814411997795105, 0.5882188677787781, -0.477336585521698, -0.6087053418159485, -0.5024818181991577, -0.7691591382026672, 0.574623703956604, -0.4757995903491974, 0.014654361642897129, -0.7227649092674255, -0.6347235441207886, 0.06183256953954697, -0.2844200134277344, -0.715637743473053, 0.3252284526824951, -0.6153336763381958, 0.8321302533149719, 0.39677637815475464, 0.18495097756385803, 0.21191416680812836, 0.424279123544693, 0.36100754141807556, 0.4487600326538086, -0.2247120440006256, 0.13065074384212494, -0.8539023995399475, 0.4775271415710449, -0.1999981552362442, -0.1394404023885727, 0.25399717688560486, 0.5135246515274048, -0.4913671910762787, -0.08689410239458084, -0.23959901928901672, -0.4089002311229706, 0.5930731892585754, -0.3411768972873688, -0.10342675447463989, -0.3743647336959839, -0.049545396119356155, -0.17972202599048615, -0.06648457795381546, -0.6604259610176086, 0.2099137306213379, -0.2308577299118042, 0.7289384007453918, 0.5407810807228088, -0.21312420070171356, -0.26129987835884094, -0.055930834263563156, -0.03576374053955078, 0.16116808354854584, 0.7290505766868591, -0.5193580985069275, 0.061392828822135925, -0.06896325945854187, 0.3518787920475006, 0.3450154662132263, 0.4877730906009674, -0.2449188083410263, -0.282539039850235, 0.01927032880485058, 0.6062353849411011, 0.8432087898254395, -0.6160278916358948, -0.5507030487060547, -0.0433664470911026, -0.7977590560913086, -0.4842256009578705, 0.4748660922050476, 0.5812229514122009, 0.4981762170791626, 0.12399610877037048, 0.23080691695213318, -0.15096469223499298, -0.12656381726264954, 0.10597773641347885, 0.7817999124526978, -0.30649659037590027, -0.3239567279815674, 0.05705474689602852, 0.08648604154586792, -0.22679685056209564, -0.5940269231796265, 0.15017777681350708, -0.6714876890182495, -0.4680722951889038, -0.5109831690788269, -0.5262804627418518, -0.12704937160015106, -0.40563294291496277, 0.1036250963807106, 0.2061893790960312, -0.23939843475818634, -0.16206501424312592, 0.637742280960083, 0.49377918243408203, -0.5301795601844788, -0.010732477530837059, -0.18644565343856812, -0.09852882474660873, 0.5259085297584534, -0.421238511800766, -0.7699859738349915, -0.021322177723050117, 0.42965343594551086, 0.07708719372749329, -0.25526610016822815, -0.6153486967086792, 0.5020503401756287, 0.40391772985458374, 0.5756165385246277, 0.8200835585594177, -0.04023405537009239, -0.49331673979759216, 0.19952014088630676, -0.2549840807914734, -0.15927189588546753, 0.18131448328495026, -0.7110915184020996, 0.719775915145874, 0.10795392841100693, 0.8341339826583862, 0.1920952945947647, 0.042958538979291916, 0.2317495346069336, -0.2703947126865387, 0.011440163478255272, 0.40159210562705994, 0.3021296262741089, 0.6002740263938904, 0.10347497463226318, 0.2458665817975998, -0.5186766386032104, 0.2246614396572113, -0.516814112663269, 0.436212956905365, 0.44581738114356995, -0.5502507090568542, 0.15660879015922546, 0.24634592235088348, 0.5061780214309692, 0.024292977526783943, -0.4663303792476654, -0.7704447507858276, -0.4150122106075287, -0.7978568077087402, -0.2079724669456482, -0.36964887380599976, 0.06818601489067078, 0.406215101480484, -0.546412467956543, 0.5960301160812378, -0.6452618837356567, 0.5983113646507263, 0.14457251131534576, -0.29341450333595276, 0.6585249304771423, 0.2952059805393219, -0.5966856479644775, -0.012001131661236286, -0.32684725522994995, 0.29329246282577515, -0.4139197766780853, -0.15181148052215576, 0.8432639241218567, -0.18868118524551392, 0.05234524980187416, 0.8236216902732849, 0.01212917361408472, -0.7232042551040649, 0.6592803001403809, -0.20794929563999176, -0.385934054851532, -0.21051999926567078, -0.3526029586791992, 0.3455356955528259, -0.02837008237838745, 0.597990870475769, 0.8351613879203796, -0.05149024724960327, -0.6348980069160461, 0.557471752166748, 0.061686642467975616, -0.6854831576347351, -0.5180759429931641, 0.24841661751270294, -0.3661464750766754, 0.02999049797654152, 0.6638672351837158, 0.6732563972473145, 0.3383755385875702, 0.14055292308330536, -0.5355872511863708, -0.4647955298423767, 0.5191935896873474, -0.103277787566185, -0.37464484572410583, 0.7659831047058105, -0.09321384876966476, -0.8698019981384277, -0.09700686484575272, 0.01643911935389042, -0.5093024969100952, -0.4128541350364685, -0.4337601363658905, 0.14387743175029755, 0.4183596968650818, 0.538205623626709, 0.3994259238243103, -0.06835582107305527, 0.5343052744865417, -0.16308608651161194, 0.17670661211013794, -0.24669282138347626, 0.3429608643054962, -0.3406730890274048, -0.3871208727359772, -0.30387046933174133, 0.4295777976512909, 0.4087236523628235, 0.13889387249946594, 0.5620439648628235, -0.4353209435939789, 0.6364311575889587, 0.34727075695991516, -0.2404816895723343, 0.4215046465396881, -0.2585470378398895, 0.18650168180465698, 0.4701535999774933, 0.09286133944988251, 0.6225574016571045, 0.19109292328357697, -0.682935893535614, -0.24460117518901825, 0.06966840475797653, 0.4856738746166229, 0.22864224016666412, 0.5910300612449646, -0.2790581285953522, 0.0638837143778801, -0.06043914705514908, 0.44232457876205444, -0.25511470437049866, 0.6972231864929199, -0.3743128478527069, -0.33546990156173706, 0.6888993382453918, 0.052690211683511734, 0.2945452034473419, -0.3744276762008667, 0.04992057383060455, 0.15853993594646454, 0.5091930031776428, 0.4022991955280304, -0.23342058062553406, -0.6199457049369812, 0.6005800366401672, 0.6606832146644592, -0.2197788953781128, -0.30463317036628723, 0.046077366918325424, 0.5924466848373413, 0.6580148935317993, 0.21435929834842682, 0.2674750089645386, 0.6274477243423462, 0.04692421481013298, 0.33170849084854126, 0.22310583293437958, 0.39874887466430664, 0.5860238671302795, -0.7743640542030334, -0.7041803002357483, 0.019581705331802368, -0.2550818622112274, -0.22724628448486328, 0.6917005777359009, -0.871452808380127, 0.1876095086336136, 0.19748656451702118, -0.23139891028404236, 0.40285724401474, 0.8264394402503967, -0.49264705181121826, -0.4059997797012329, 0.3372110426425934, 0.2738489508628845, -0.5402500033378601, -0.5281898379325867, -0.4244377911090851, -0.23616234958171844, -0.4789949953556061, 0.8355889916419983, 0.10887622833251953, 0.4120599031448364, 0.2009517401456833, -0.0757787823677063, -0.8457741141319275, -0.45077815651893616, 0.7155436277389526, 0.7281293869018555, 0.281925767660141, -0.5596580505371094, 0.3175643980503082, -0.15318697690963745, 0.10371440649032593, -0.5917571783065796, -0.45916441082954407, 0.6705818176269531, 0.36083486676216125, -0.6913687586784363, -0.05880643054842949, 0.3659643828868866, -0.327243447303772, -0.49583035707473755, 0.7798959612846375, 0.45436617732048035, 0.016657935455441475, 0.6384890675544739, -0.5970442891120911, -0.2891489267349243, -0.005095333326607943, 0.6074532866477966, -0.23452210426330566, -0.6677447557449341, -0.5517532825469971, -0.6828004717826843, 0.8300295472145081, -0.5203258991241455, 0.5932234525680542, 0.6939805150032043, -0.7545011639595032, -0.2950996160507202, 0.05868003889918327, -0.24437075853347778, 0.03693956881761551, -0.4272504448890686, -0.3850390911102295, -0.45479440689086914, -0.11936452239751816, -0.08698263764381409, 0.32574036717414856, -0.13250038027763367, -0.45189040899276733, 0.8632147908210754, -0.25165364146232605, -0.24867847561836243, 0.02369079738855362, -0.17955414950847626, -0.2884061336517334, -0.07334490865468979, 0.2257562279701233, -0.23453451693058014, -0.17032977938652039, -0.12973767518997192, -0.011870705522596836, -0.3322586417198181, 0.1477823406457901, -0.32708612084388733, -0.18932746350765228, -0.3864040970802307, -0.17027761042118073, 0.2358463704586029, -0.23646388947963715, 0.4307786226272583, -0.3857521116733551, 0.6504388451576233, -0.16118770837783813, 0.44019412994384766, 0.3893055021762848, 0.5485872626304626, -0.32254302501678467, 0.1328299343585968, -0.6636577844619751, -0.18099148571491241, -0.5845699310302734, 0.814774215221405, 0.5656892657279968, 0.7111757397651672, -0.030220184475183487, -0.179850772023201, -0.40626242756843567, 0.5032437443733215, 0.09707354009151459, 0.19935433566570282, -0.3155859410762787, -0.22085514664649963, -0.31208518147468567, 0.15553158521652222, -0.45497623085975647, 0.1589786857366562, -0.7074631452560425, 0.42377692461013794, 0.4684925973415375, -0.49691757559776306, -0.8289234042167664, -0.34740522503852844, 0.2361045479774475, -0.4987369179725647, -0.4925934672355652, 0.43612948060035706, 0.1882937103509903, 0.7327764630317688, -0.7054682970046997, -0.46760135889053345, -0.48266884684562683, 0.0800495371222496, 0.5412845611572266, 0.28135332465171814, 0.008392121642827988, 0.39916953444480896, -0.11145170778036118, 0.6940479278564453, 0.4860759973526001, 0.495029479265213, 0.014498350210487843, 0.6953812837600708, -0.383402556180954, 0.18829478323459625, 0.33464905619621277, 0.8111768364906311, -0.22586356103420258, 0.34708553552627563, 0.13660556077957153, 0.7531613707542419, 0.04643891379237175, -0.6444661617279053, -0.2122092992067337, 0.29669511318206787, 0.41389888525009155, -0.6668246388435364, -0.29541730880737305, 0.27624306082725525, 0.29535770416259766, -0.38914498686790466, -0.12539377808570862, 0.3360571563243866, -0.36437180638313293, -0.16256535053253174, 0.23011988401412964, 0.1846761554479599, 0.04124969616532326, -0.6233243346214294, -0.15583553910255432, 0.6749874353408813, 0.11517878621816635, 0.5862613320350647, -0.40223971009254456, -0.6113690733909607, 0.38521668314933777, -0.5035606622695923, 0.3676161766052246, 0.5425769686698914, 0.4224264919757843, -0.5511913299560547, -0.6193037033081055, 0.4322179853916168, -0.7856963872909546, -0.33138003945350647, 0.26574066281318665, 0.06122374162077904, -0.5508641004562378, 0.3764730393886566, 0.23748734593391418, -0.27121806144714355, -0.5427546501159668, -0.057578109204769135, 0.49579912424087524, -0.33286482095718384, 0.09582867473363876, 0.42866379022598267, -0.16378271579742432, 0.7282946109771729, -0.35467761754989624, 0.1715814620256424, -0.026141706854104996, 0.12275499105453491, -0.1769993007183075, -0.49485301971435547, -0.06047773361206055, -0.7749548554420471, 0.5363656282424927, -0.21453292667865753, 0.2209286242723465, 0.3835785686969757, 0.08069487661123276, 0.3952202796936035, 0.6969847083091736, -0.5709260702133179, -0.3118448555469513, 0.7582071423530579, 0.09111887216567993, -0.5289576649665833, 0.7705119252204895, 0.9127268195152283, -0.4040501117706299, 0.5597821474075317, 0.6395374536514282, -0.6466739773750305, 0.233864888548851, -0.2951219379901886, 0.3953675925731659, -0.49664604663848877, 0.10663428157567978, -0.6110638976097107, 0.2690563201904297, -0.03551705181598663, 0.5431917309761047, 0.3876868784427643, 0.28401491045951843, 0.41587361693382263, 0.1623651534318924, 0.37356406450271606, 0.5373152494430542, 0.38010749220848083, 0.04496680945158005, 0.6616333723068237, -0.7729955315589905, 0.5613150000572205, 0.2317151129245758, -0.3928941786289215, -0.36424553394317627, 0.7592957019805908, 0.33952727913856506, 0.6168712973594666, -0.29377275705337524, -0.5466650128364563, 0.5656594038009644, -0.32806262373924255, 0.3860148787498474, -0.7990391254425049, -0.5812013149261475, -0.30629777908325195, 0.23999737203121185, -0.4481950104236603, 0.09452793747186661, -0.11920423805713654, 0.026706185191869736, 0.4831496477127075, 0.32336047291755676, -0.020932648330926895, 0.12277393788099289, 0.018944082781672478, -0.1987665891647339, 0.4894023835659027, -0.1559811383485794, -0.5287829041481018, -0.16031856834888458, -0.4711264967918396, 0.2714996933937073, 0.304852157831192, -0.20567750930786133, -0.0016552790766581893, -0.4752025008201599, -0.19073154032230377, 0.04436645284295082, -0.6729261875152588, 0.46299394965171814, -0.30334943532943726, -0.3895556926727295, 0.3168862760066986, -0.5100920796394348, -0.298595666885376, -0.0052536241710186005, -0.06091473251581192, -0.18676258623600006, 0.549142062664032, 0.6286372542381287, 0.4067858159542084, 0.200754776597023, -0.11934610456228256, -0.835680365562439, 0.15261830389499664, -0.8812358379364014, -0.059889234602451324, -0.2953000068664551, -0.06188173592090607, -0.2216760665178299, 0.2297288030385971, -0.35196739435195923, 0.39717426896095276, -0.5188113451004028, -0.05886337161064148, 0.24396474659442902, -0.24720166623592377, 0.6508893370628357, 0.10901349037885666, -0.2201722413301468, -0.019893405959010124, -0.30505746603012085, -0.6934940218925476, -0.8813318014144897, -0.292036235332489, -0.4494154453277588, -0.6800915598869324, 0.7093291878700256, 0.22952815890312195, -0.20152796804904938, 0.31264474987983704, 0.7355738878250122, 0.25371795892715454, 0.768099308013916, 0.19084104895591736, -0.5703814029693604, 0.307921439409256, 0.37167292833328247, 0.7727212905883789, -0.2472262978553772, -0.6174296736717224, 0.2440582513809204, 0.20579294860363007, -0.7531682252883911, -0.1909436136484146, 0.22920598089694977, -0.01500796340405941, -0.3864039182662964, -0.3463015556335449, 0.2937578558921814, -0.012245415709912777, -0.7094670534133911, 0.38716453313827515, 0.09188157320022583, -0.6607949137687683, -0.5869464874267578, 0.623323917388916, -0.1361144334077835, -0.04177384823560715, 0.1796215921640396, 0.6946359872817993, 0.4402443766593933, -0.5713115334510803, -0.4406365752220154, -0.23538738489151, 0.596015214920044, -0.582730233669281, 0.3019481301307678, 0.11853296309709549, 0.48214611411094666, -0.35603830218315125, -0.4942292273044586, 0.17387549579143524, -0.38635796308517456, 0.39856281876564026, -0.4339471459388733, 0.1665300875902176, -0.28604602813720703, -0.37126612663269043, -0.20407722890377045, -0.5149621963500977, -0.44421496987342834, -0.24264946579933167, -0.800005316734314, 0.11586558818817139, 0.15851065516471863, 0.20558935403823853, -0.5448006391525269, 0.36367782950401306, 0.1014474555850029, -0.7146230340003967, -0.5482014417648315, -0.09715109318494797, -0.008384031243622303, 0.17540235817432404, 0.5103622078895569, 0.02527952939271927, 0.05854570493102074, 0.573249876499176, -0.013401256874203682, -0.01739472523331642, -0.3221249580383301, -0.08893372118473053, 0.2585826814174652, 0.26851221919059753, 0.7129561901092529, -0.15383034944534302, 0.007490092422813177, 0.1104874536395073, 0.1819457858800888, -0.026683134958148003, -0.4981227517127991, 0.16015057265758514, 0.5906326174736023, -0.5134839415550232, -0.6203529834747314, 0.603502631187439, 0.20819564163684845, -0.08092602342367172, -0.3631434738636017, -0.19179531931877136, 0.07485220581293106, -0.408344566822052, -0.34269091486930847, 0.7508461475372314, 0.17325915396213531, 0.256585031747818, -0.026104716584086418, 0.06056557968258858, 0.14793427288532257, -0.5085352063179016, -0.06612159311771393, -0.39433082938194275, -0.3812604546546936, -0.3486783504486084, -0.5166031122207642, -0.08608703315258026, 0.11124028265476227, 0.71541827917099, -0.721911609172821, 0.5996610522270203, -0.2756783962249756, 0.35908758640289307, -0.8625121712684631, -0.25668129324913025, -0.5704180002212524, 0.4148924648761749, 0.11061474680900574, 0.014326798729598522, -0.5459124445915222, 0.240061417222023, -0.3131200671195984, -0.4199172556400299, -0.3302372694015503, -0.3050389885902405, 0.19161349534988403, -0.17824408411979675, -0.4011376202106476, 0.5564907193183899, -0.3896999955177307, 0.4159005582332611, -0.3828763961791992, -0.6487796902656555, 0.14458425343036652, 0.4382975995540619, 0.7521337866783142, -0.03770601376891136, 0.22485145926475525, -0.5151934623718262, 0.5877466797828674, 0.758800208568573, 0.9157422780990601, 0.4127751588821411, -0.7855538725852966, 0.5102856159210205, 0.4435739815235138, -0.5267870426177979, -0.22587652504444122, -0.435026615858078, 0.028557565063238144, 0.08460452407598495, 0.6818786859512329, -0.10005491971969604, -0.28379762172698975, 0.6029342412948608, 0.4270817041397095, 0.2993425726890564, 0.6326524019241333, 0.13947488367557526, 0.554276704788208, -0.4787718951702118, 0.18032139539718628, 0.01321797538548708, 0.5557831525802612, -0.03778056427836418, 0.6371161937713623, 0.7750587463378906, -0.7313968539237976]]</code></pre>
+</div>
+</div>
+<div id="e9fde11d-7f78-4d9d-8449-3c9ed67296a3" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>fv_left_iris <span class="op">=</span> np.array(fv_left_iris).reshape(<span class="dv">1</span>, <span class="dv">768</span>)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>fv_right_iris <span class="op">=</span> np.array(fv_right_iris).reshape(<span class="dv">1</span>, <span class="dv">768</span>)</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>key <span class="op">=</span> <span class="dv">29</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>orthogonal_matrix <span class="op">=</span> generate_orthogonal_matrix(key)</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>left_projection_matrix <span class="op">=</span> np.dot(orthogonal_matrix, fv_left_iris)</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>Right_projection_matrix <span class="op">=</span> np.dot(orthogonal_matrix, fv_right_iris)</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>Cancelabel_matrix <span class="op">=</span> np.multiply(left_projection_matrix, Right_projection_matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="c9003eed-ba6d-4441-865e-e1fbf75b1f37" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cancelabel_matrix= Cancelabel_matrix.reshape( 16, 768, 1)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="b1ddc76c-fc3d-4540-b444-9c599c918312" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>Cancelabel_matrix <span class="op">=</span> np.expand_dims(Cancelabel_matrix, axis<span class="op">=-</span><span class="dv">1</span>)  <span class="co"># Shape becomes (16, 768, 1)</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>Cancelabel_matrix <span class="op">=</span> np.expand_dims(Cancelabel_matrix, axis<span class="op">=</span><span class="dv">0</span>)   </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="2d342b7d-8f5f-487c-86ca-179571f53eef" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>Cancelabel_matrix.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<pre><code>(1, 16, 768, 1)</code></pre>
+</div>
+</div>
+<div id="32a39661-d6f0-40ae-a7af-bfbd44ffdee0" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict the class</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>predictions <span class="op">=</span> model.predict(Cancelabel_matrix)</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>predicted_class <span class="op">=</span> np.argmax(predictions, axis<span class="op">=</span><span class="dv">1</span>)  <span class="co"># Get the index of the highest probability</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="co"># print(predictions)</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Predicted class:"</span>, predicted_class[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1/1 ━━━━━━━━━━━━━━━━━━━━ 0s 70ms/step
+Predicted class: 29</code></pre>
+</div>
+</div>
+<div id="73e60899-8d4f-40cd-bdd6-a5a0a35c7d71" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torchvision</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datasets</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pickle</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tensorflow <span class="im">as</span> tf</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn <span class="im">import</span> __version__ <span class="im">as</span> sklearn_version</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Dictionary to store versions</span></span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>versions <span class="op">=</span> {</span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"torch"</span>: torch.__version__,</span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"os"</span>: os.__doc__.splitlines()[<span class="dv">0</span>],  <span class="co"># os module doesn't have a version</span></span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"PIL"</span>: Image.__version__,</span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"torchvision"</span>: torchvision.__version__,</span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"datasets"</span>: datasets.__version__,</span>
+<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pickle"</span>: <span class="st">"Built-in module, version depends on Python version."</span>,</span>
+<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pandas"</span>: pd.__version__,</span>
+<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"numpy"</span>: np.__version__,</span>
+<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"tensorflow"</span>: tf.__version__,</span>
+<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"sklearn"</span>: sklearn_version,</span>
+<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"matplotlib"</span>: matplotlib.__version__</span>
+<span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb45-27"><a href="#cb45-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-28"><a href="#cb45-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the versions</span></span>
+<span id="cb45-29"><a href="#cb45-29" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> lib, version <span class="kw">in</span> versions.items():</span>
+<span id="cb45-30"><a href="#cb45-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>lib<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>version<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>torch: 2.4.1+cpu
+os: OS routines for NT or Posix depending on what system we're on.
+PIL: 10.4.0
+torchvision: 0.19.1+cpu
+datasets: 3.0.0
+pickle: Built-in module, version depends on Python version.
+pandas: 2.2.2
+numpy: 1.26.4
+tensorflow: 2.17.0
+sklearn: 1.5.2
+matplotlib: 3.9.2</code></pre>
+</div>
+</div>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
