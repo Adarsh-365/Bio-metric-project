@@ -110,7 +110,7 @@ The system's performance was rigorously evaluated and yielded excellent results:
 
 **Model Accuracy & Loss**
 The training history shows a stable and fast convergence, with validation accuracy closely tracking the training accuracy.
-![Model Accuracy and Loss](https://i.imgur.com/your-accuracy-loss-plot.png)
+![Model Accuracy and Loss](https://github.com/Adarsh-365/Bio-metric-project/blob/main/index_files/figure-html/cell-13-output-2.png)
 
 **FAR, FRR, and EER**
 The plot of False Acceptance Rate (FAR) and False Rejection Rate (FRR) shows a clear intersection point, defining the Equal Error Rate.
