@@ -114,7 +114,7 @@ The training history shows a stable and fast convergence, with validation accura
 
 **FAR, FRR, and EER**
 The plot of False Acceptance Rate (FAR) and False Rejection Rate (FRR) shows a clear intersection point, defining the Equal Error Rate.
-![FAR and FRR vs Threshold](https://i.imgur.com/your-far-frr-plot.png)
+![FAR and FRR vs Threshold](https://github.com/Adarsh-365/Bio-metric-project/blob/main/index_files/figure-html/cell-14-output-2.png)
 
 
 
