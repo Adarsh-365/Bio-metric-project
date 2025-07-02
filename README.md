@@ -5,7 +5,7 @@
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
-This project implements a robust and secure biometric authentication system using **cancelable biometric templates** on the **IITD (Indian Institute of Technology Delhi) touchless irisprint database**. The core idea is to transform raw biometric data into a non-reversible, revocable format, ensuring user privacy and enhancing security against data breaches.
+This project implements a robust and secure biometric authentication system using **cancelable biometric templates** on the **IITD (Indian Institute of Technology Delhi) touchless Iris database**. The core idea is to transform raw biometric data into a non-reversible, revocable format, ensuring user privacy and enhancing security against data breaches.
 
 ## 📜 Table of Contents
 - [The Problem with Traditional Biometrics](#-the-problem-with-traditional-biometrics)
@@ -35,7 +35,7 @@ This project solves these problems by creating **cancelable biometric templates*
 
 The workflow is designed for maximum security and privacy:
 
-1.  **Feature Extraction:** The process begins with pre-extracted features from the IITD irisprint dataset.
+1.  **Feature Extraction:** The process begins with pre-extracted features from the IITD IRIS dataset.
 2.  **Secure Key Generation:** For each user, a unique and strong digital key is generated using cryptographic hashing (SHA256). This key acts as a secret password.
 3.  **Orthogonal Matrix Transformation:** The secret key is used as a seed to generate a unique **orthogonal matrix** via the Gram-Schmidt process. This matrix serves as the user's personal transformation function.
 4.  **Cancelable Template Creation:** The user's raw biometric feature vector is multiplied by their unique orthogonal matrix. The result is the **cancelable template**, which is the only piece of data stored in the database.
